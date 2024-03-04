@@ -16,13 +16,13 @@ void Texture::CreateTexture(const TextureOptions& options, void* ptr/*= nullptr*
 {
     GLCall(glGenTextures(1, &m_rendererID));
     GLCall(glBindTexture(GL_TEXTURE_2D, m_rendererID));
+    GLCall(glTexImage2D(GL_TEXTURE_2D, options.MipLevels, options.Format, m_width, m_height, 0, options.PixFormat, options.Type, ptr));
 
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, options.MinFilter));
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, options.MagFilter));
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, options.WrapS));
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, options.WrapT));
     
-    GLCall(glTexImage2D(GL_TEXTURE_2D, options.MipLevels, options.Format, m_width, m_height, 0, options.PixFormat, options.Type, nullptr));
     GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
 

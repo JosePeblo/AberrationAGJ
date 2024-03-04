@@ -7,7 +7,7 @@ struct TextureOptions {
     GLint WrapS     = GL_CLAMP_TO_EDGE;
     GLint WrapT     = GL_CLAMP_TO_EDGE;
     GLint MipLevels = 0;
-    GLint Format    = GL_RGBA;
+    GLint Format    = GL_RGBA8;
     GLint PixFormat = GL_RGBA;
     GLenum Type     = GL_UNSIGNED_BYTE;
 };

@@ -40,6 +40,7 @@ void segvHandler(int s)
 }
 
 int main(void) {
+    GameController::OnStart();
     auto scene = Scene();
     Entity suzane;
 

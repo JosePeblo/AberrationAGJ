@@ -51,12 +51,15 @@ void FrameBuffer::AttachRenderTextures(const std::vector<Texture*>& textures)
 {
     if(textures.size() == 0) return;
 
+    this->Bind();
     // Sorry
     uint32_t* attachments = new uint32_t[textures.size()];
     for(uint32_t i = 0; i < textures.size(); ++i)
     {
+        textures[i]->Bind();
         GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + m_attachments++, GL_TEXTURE_2D, textures[i]->m_rendererID, 0));
         attachments[i] = GL_COLOR_ATTACHMENT0 + i;
+        textures[i]->Unbind();
     }
     GLCall(glDrawBuffers(textures.size(), attachments));
     delete attachments;
