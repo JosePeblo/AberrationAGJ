@@ -32,3 +32,12 @@ void RenderBuffer::Unbind() const
 {
     GLCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 }
+
+RenderBuffer& RenderBuffer::operator=(RenderBuffer&& that) noexcept
+{
+    m_rendererID = that.m_rendererID;
+    that.m_rendererID = 0;
+    return *this;
+}
+
+uint32_t RenderBuffer::GetID() { return m_rendererID; }

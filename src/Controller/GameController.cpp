@@ -35,7 +35,7 @@ void GBufferSettup() {
     
     gBuffer.AttachRenderTextures({&gPosition, &gNormals, &gAlbedoSpec});
 
-    depthBuffer = RenderBuffer();
+    depthBuffer = RenderBuffer(RenderTarget.GetDims().x, RenderTarget.GetDims().y);
     depthBuffer.Bind();
 }
 

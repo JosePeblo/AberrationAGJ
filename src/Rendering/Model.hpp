@@ -12,7 +12,7 @@ typedef struct {
 
 class Model {
 public:
-    Model() = delete;
+    Model() = default;
     Model(const std::string& path);
     auto& GetBoneInfoMap() { return m_BoneInfoMap; }
     int& GetBoneCount() { return m_BoneCounter; }

@@ -7,7 +7,7 @@ struct TextureOptions {
     GLint WrapS     = GL_CLAMP_TO_EDGE;
     GLint WrapT     = GL_CLAMP_TO_EDGE;
     GLint MipLevels = 0;
-    GLint Format    = GL_RGBA8;
+    GLint Format    = GL_RGBA;
     GLint PixFormat = GL_RGBA;
     GLenum Type     = GL_UNSIGNED_BYTE;
 };
@@ -24,6 +24,9 @@ public:
 
     // Create texture with custom parameters
     Texture(int width, int height, const TextureOptions& options);
+    
+    Texture& operator=(const Texture&) = delete;
+    Texture& operator=(Texture&&) noexcept;
 
     ~Texture();
     void Bind(unsigned int slot = 0) const;

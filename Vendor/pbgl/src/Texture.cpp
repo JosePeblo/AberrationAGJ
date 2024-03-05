@@ -83,6 +83,17 @@ Texture::~Texture() {
     }
 }
 
+Texture& Texture::operator=(Texture&& that) noexcept 
+{
+    m_rendererID = that.m_rendererID;
+    m_width = that.m_width;
+    m_height = that.m_height;
+    m_bpp = that.m_bpp;
+
+    that.m_rendererID = 0;
+    return *this;
+}
+
 void Texture::Bind(unsigned int slot /* = 0*/) const {
     GLCall(glActiveTexture(GL_TEXTURE0 + slot));
     GLCall(glBindTexture(GL_TEXTURE_2D, m_rendererID));

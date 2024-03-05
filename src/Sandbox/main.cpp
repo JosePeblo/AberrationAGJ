@@ -24,8 +24,8 @@ public:
     {
         for(auto& mesh: model.GetMeshes())
         {
-            shader.Bind();
             GameController::GameRenderer.DrawTriangleMesh(*mesh.va, *mesh.ib, shader);
+
         }
     }
 

@@ -13,47 +13,51 @@ Shader::Shader(const std::string& filePath): m_filePath(filePath), m_rendererID(
 
 Shader::~Shader()
 {
-    GLCall(glDeleteProgram(m_rendererID));
+    if(m_rendererID) {
+        GLCall(glDeleteProgram(m_rendererID));
 
-    for(auto& uniform: m_uniformLocationCache)
-    {
-        void* data = uniform.second.data;
-        UNIFORM_TYPE type = uniform.second.type;
-        if(data)
+        for(auto& uniform: m_uniformLocationCache)
         {
-            switch (type)
+            void* data = uniform.second.data;
+            UNIFORM_TYPE type = uniform.second.type;
+            if(data)
             {
-                case UNIFORM_TYPE::UNIFORM_NONE:
-                break;
-                case UNIFORM_TYPE::UNIFORM_INT:
-                delete (int*)data;
-                break;
-                case UNIFORM_TYPE::UNIFORM_FLOAT:
-                delete (float*)data;
-                break;
-                case UNIFORM_TYPE::UNIFORM_DOUBLE:
-                break;
-                case UNIFORM_TYPE::UNIFORM_VEC2:
-                delete (vec2*)data;
-                break;
-                case UNIFORM_TYPE::UNIFORM_VEC3:
-                delete (vec3*)data;
-                break;
-                case UNIFORM_TYPE::UNIFORM_VEC4:
-                delete (vec4*)data;
-                break;
-                case UNIFORM_TYPE::UNIFORM_MAT2f:
-                break;
-                case UNIFORM_TYPE::UNIFORM_MAT3f:
-                delete (mat3*)data;
-                break;
-                case UNIFORM_TYPE::UNIFORM_MAT4f:
-                delete (mat4*)data;
-                break;
+                switch (type)
+                {
+                    case UNIFORM_TYPE::UNIFORM_NONE:
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_INT:
+                    delete (int*)data;
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_FLOAT:
+                    delete (float*)data;
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_DOUBLE:
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_VEC2:
+                    delete (vec2*)data;
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_VEC3:
+                    delete (vec3*)data;
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_VEC4:
+                    delete (vec4*)data;
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_MAT2f:
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_MAT3f:
+                    delete (mat3*)data;
+                    break;
+                    case UNIFORM_TYPE::UNIFORM_MAT4f:
+                    delete (mat4*)data;
+                    break;
 
-            }
-        }        
-        
+                }
+            }        
+            
+        }
+
+        m_rendererID = 0;
     }
 }
 

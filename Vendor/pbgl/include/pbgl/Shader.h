@@ -38,6 +38,9 @@ class Shader
     public:
         Shader(){}
         Shader(const std::string& filePath);
+        // Shader(const Shader&) = delete;
+        // Shader& operator=(const Shader&) = delete;
+        // Window& operator=(Window&&) noexcept = delete;
         ~Shader();
 
         void Bind() const;
