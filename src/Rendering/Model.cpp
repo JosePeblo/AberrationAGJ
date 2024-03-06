@@ -31,7 +31,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     Mesh ms;
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
-    std::vector<Tx> textures;
+    std::vector<Texture> textures;
     
     // Vertices
     for(uint32_t i = 0; i < mesh->mNumVertices; ++i)
@@ -76,6 +76,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
         }
     }
 
+    // Material
+    if(mesh->mMaterialIndex >= 0) {
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        loadMaterialTextures(textures, material, aiTextureType_DIFFUSE, "texure_diffuse");
+        loadMaterialTextures(textures, material, aiTextureType_SPECULAR, "texture_specular");
+    }
+
     ExtractBoneWeigthsForVertices(vertices, mesh, scene);
 
     // for(const auto& v : vertices)
@@ -97,6 +104,18 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     
     return ms;
 }
+
+void Model::loadMaterialTextures(std::vector<Texture>& textures, aiMaterial* mat, aiTextureType type, const std::string& typeName /*FIXME: not used, it is suposed to be used for the indexing I supose*/)
+{
+    for(uint32_t i = 0; i < mat->GetTextureCount(type); ++i)
+    {
+        aiString str;
+        mat->GetTexture(type, i, &str);
+        Texture tex(str.C_Str());
+        textures.push_back(std::move(tex));
+    }
+}
+
 
 void Model::ExtractBoneWeigthsForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {

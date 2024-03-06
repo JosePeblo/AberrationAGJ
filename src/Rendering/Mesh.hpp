@@ -22,14 +22,9 @@ typedef struct {
 } Vertex;
 
 typedef struct {
-    uint32_t id;
-    std::string type;
-} Tx;
-
-typedef struct {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
-    std::vector<Tx> textures;
+    std::vector<Texture> textures;
 
     VertexArray* va;
     VertexBuffer* vb;

@@ -30,18 +30,14 @@ in vec2 v_TexCoords;
 in vec3 v_FragPos;
 in vec3 v_Normal;
 
-// uniform sampler2D u_diffuse;
-// uniform sampler2D u_specular;
+uniform sampler2D u_diffuse;
+uniform sampler2D u_specular;
 
 void main()
 {
-    // gPosition       = v_FragPos;
-    // gNormal         = normalize(v_Normal);
-    // gAlbedoSpec.rgb = texture(u_diffuse, v_TexCoords).rgb;
-    // gAlbedoSpec.a   = texture(u_specular, v_TexCoords).a;
-
     gPosition       = v_FragPos;
     gNormal         = normalize(v_Normal);
-    gAlbedoSpec.rgb = vec3(1.0, 0.0, 1.0);
-    gAlbedoSpec.a   = 1.0;
+    gAlbedoSpec.rgb = texture(u_diffuse, v_TexCoords).rgb;
+    gAlbedoSpec.a   = texture(u_specular, v_TexCoords).a;
+
 }

@@ -83,6 +83,15 @@ Texture::~Texture() {
     }
 }
 
+Texture::Texture(Texture&& that) noexcept {
+    m_rendererID = that.m_rendererID;
+    m_width = that.m_width;
+    m_height = that.m_height;
+    m_bpp = that.m_bpp;
+
+    that.m_rendererID = 0;
+}
+
 Texture& Texture::operator=(Texture&& that) noexcept 
 {
     m_rendererID = that.m_rendererID;

@@ -24,7 +24,9 @@ public:
 
     // Create texture with custom parameters
     Texture(int width, int height, const TextureOptions& options);
-    
+    Texture(const Texture&) = delete;
+    Texture(Texture&&) noexcept;
+
     Texture& operator=(const Texture&) = delete;
     Texture& operator=(Texture&&) noexcept;
 
