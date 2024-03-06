@@ -30,7 +30,11 @@ void Texture::CreateTexture(const TextureOptions& options, void* ptr/*= nullptr*
 Texture::Texture(const char* filePath, int flip) {
     stbi_set_flip_vertically_on_load(flip);
     unsigned char* imgBuffer = stbi_load(filePath, &m_width, &m_height, &m_bpp, 4);
-    if(!imgBuffer) return;
+    if(!imgBuffer){
+        puts("failed to load textrue: ");
+        puts(filePath);
+        return;
+    }
 
     TextureOptions options;
     options.MinFilter = GL_LINEAR;

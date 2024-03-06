@@ -24,6 +24,10 @@ public:
     {
         for(auto& mesh: model.GetMeshes())
         {
+            for(size_t i = 0; i < mesh.textures.size(); ++i)
+            {
+                mesh.textures[i].Bind(i);
+            }
             GameController::GameRenderer.DrawTriangleMesh(*mesh.va, *mesh.ib, shader);
 
         }

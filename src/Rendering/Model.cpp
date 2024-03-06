@@ -31,7 +31,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     Mesh ms;
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
-    std::vector<Texture> textures;
     
     // Vertices
     for(uint32_t i = 0; i < mesh->mNumVertices; ++i)
@@ -79,8 +78,8 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     // Material
     if(mesh->mMaterialIndex >= 0) {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        loadMaterialTextures(textures, material, aiTextureType_DIFFUSE, "texure_diffuse");
-        loadMaterialTextures(textures, material, aiTextureType_SPECULAR, "texture_specular");
+        loadMaterialTextures(ms.textures, material, aiTextureType_DIFFUSE, "texure_diffuse");
+        loadMaterialTextures(ms.textures, material, aiTextureType_SPECULAR, "texture_specular");
     }
 
     ExtractBoneWeigthsForVertices(vertices, mesh, scene);
