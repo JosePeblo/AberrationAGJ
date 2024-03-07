@@ -76,13 +76,21 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     }
 
     // Material
-    if(mesh->mMaterialIndex >= 0) {
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        loadMaterialTextures(ms.textures, material, aiTextureType_DIFFUSE, "texure_diffuse");
-        loadMaterialTextures(ms.textures, material, aiTextureType_SPECULAR, "texture_specular");
-    }
+    // if(mesh->mMaterialIndex >= 0) {
+    //     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+    //     loadMaterialTextures(ms.textures, material, aiTextureType_DIFFUSE, "texure_diffuse");
+    //     loadMaterialTextures(ms.textures, material, aiTextureType_SPECULAR, "texture_specular");
+    // }
 
-    ExtractBoneWeigthsForVertices(vertices, mesh, scene);
+    auto tex = scene->GetEmbeddedTexture("*2");
+    
+    std::cout << "Texture width: " << tex->mWidth << std::endl;
+    std::cout << "Texture height: " << tex->mHeight << std::endl;
+    std::cout << "Texture pointer: " << &tex->pcData << std::endl;
+    std::cout << "Texture filename: " << tex->mFilename.C_Str() << std::endl;
+
+    ms.textures.push_back(LoadTextureFromMemory((unsigned char*)tex->pcData, tex->mWidth));
+    // ExtractBoneWeigthsForVertices(vertices, mesh, scene);
 
     // for(const auto& v : vertices)
     // {
@@ -109,7 +117,9 @@ void Model::loadMaterialTextures(std::vector<Texture>& textures, aiMaterial* mat
     for(uint32_t i = 0; i < mat->GetTextureCount(type); ++i)
     {
         aiString str;
+        
         mat->GetTexture(type, i, &str);
+        puts(str.C_Str());
         Texture tex(str.C_Str());
         textures.push_back(std::move(tex));
     }
@@ -136,7 +146,7 @@ void Model::ExtractBoneWeigthsForVertices(std::vector<Vertex>& vertices, aiMesh*
         }
         assert(boneId != -1);
 
-        printf("Bone %d: %s\n", boneId, boneName.c_str());
+        // printf("Bone %d: %s\n", boneId, boneName.c_str());
 
         auto weights = mesh->mBones[boneIndex]->mWeights;
         int numWeights = mesh->mBones[boneIndex]->mNumWeights;

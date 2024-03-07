@@ -48,6 +48,8 @@ protected:
 friend class FrameBuffer;
 };
 
+Texture LoadTextureFromMemory(unsigned char* buffer, int len);
+
 class TextureStorage: public Texture {
 public:
     TextureStorage();

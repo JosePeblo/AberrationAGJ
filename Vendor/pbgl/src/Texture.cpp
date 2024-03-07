@@ -30,6 +30,7 @@ void Texture::CreateTexture(const TextureOptions& options, void* ptr/*= nullptr*
 Texture::Texture(const char* filePath, int flip) {
     stbi_set_flip_vertically_on_load(flip);
     unsigned char* imgBuffer = stbi_load(filePath, &m_width, &m_height, &m_bpp, 4);
+
     if(!imgBuffer){
         puts("failed to load textrue: ");
         puts(filePath);
@@ -149,4 +150,17 @@ void TextureStorage::Bind(unsigned int slot /* = 0*/) const {
 
 void TextureStorage::Unbind() const {
     GLCall(glBindImageTexture(0, 0, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F));
+}
+
+Texture LoadTextureFromMemory(unsigned char* buffer, int len)
+{    
+    int width;
+    int height;
+    int bpp;
+
+    auto texdata = stbi_load_from_memory(buffer, len, &width, &height, &bpp, 4);
+
+    if(!texdata) puts("Error loading texture from memory");
+
+    return Texture(texdata, width, height, bpp);
 }
