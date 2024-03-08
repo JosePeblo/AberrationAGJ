@@ -6,9 +6,10 @@
 #include "Scene/Window.hpp"
 #include "AssetManager/Asset.hpp"
 #include "Rendering/Camera.hpp"
+#include "Rendering/Mesh.hpp"
 
-#define WINDOW_HEIGHT 400
-#define WINDOW_WIDTH 400
+#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 800
 
 namespace GameController {
 inline Renderer GameRenderer;
@@ -30,6 +31,9 @@ inline FrameBuffer gBuffer;
 inline Texture     gAlbedoSpec;
 inline Texture     gPosition;
 inline Texture     gNormals;
+
+inline Rect        screenRect;
+inline Shader      lightPass("Res\\Shaders\\LightingPass.glsl");
 
 void GBufferSettup();
 };

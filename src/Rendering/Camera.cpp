@@ -81,7 +81,21 @@ void PerspectiveCam::OnUpdate()
     }
     if(glfwGetKey(wnd, GLFW_KEY_E) == GLFW_PRESS)
     {
-        m_Orientation = cml::rotate(m_Orientation, cml::radians(2.f), vec3(0,0,1));
+        m_Up = cml::rotate(m_Up, cml::radians(2.f), cml::norm(m_Orientation));
+    }
+
+    if(glfwGetKey(wnd, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        m_Up = cml::rotate(m_Up, cml::radians(-2.f), cml::norm(m_Orientation));
+    }
+
+    if(glfwGetKey(wnd, GLFW_KEY_R) == GLFW_PRESS)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    } 
+    if(glfwGetKey(wnd, GLFW_KEY_R) == GLFW_RELEASE)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 }
 

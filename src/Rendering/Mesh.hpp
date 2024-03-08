@@ -32,3 +32,45 @@ typedef struct {
     IndexBuffer* ib;
 } Mesh;
 
+struct Rect {
+    const float vertices[24] = { 
+        //Coords    //TexCoords
+        1.f, -1.f,  1.f,  0.f,
+       -1.f, -1.f,  0.f,  0.f,
+       -1.f,  1.f,  0.f,  1.f,
+        
+        1.f,  1.f,  1.f,  1.f,
+        1.f, -1.f,  1.f,  0.f,
+       -1.f,  1.f,  0.f,  1.f,
+    };
+    const unsigned int indices[6] = {
+        0, 1, 2,
+        3, 4, 5
+    };
+
+    VertexArray* va = nullptr;
+    VertexBuffer* vb = nullptr;
+    VertexBufferLayout layout;
+    IndexBuffer* ib = nullptr;
+
+    inline Rect()
+    {
+        va = new VertexArray;
+        vb = new VertexBuffer(vertices, sizeof(vertices));
+        ib = new IndexBuffer(indices, 6);
+        layout.Push<float>(2);
+        layout.Push<float>(2);
+
+        va->AddBuffer(*vb, layout);
+    }
+
+    inline ~Rect()
+    {
+        if(va) delete va;
+        if(vb) delete vb;
+        if(ib) delete ib;
+    }
+
+};
+
+

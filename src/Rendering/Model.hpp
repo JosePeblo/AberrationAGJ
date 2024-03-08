@@ -28,6 +28,6 @@ private:
     void ExtractBoneWeigthsForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene);
     void SetVertexBoneData(Vertex& vertex, int boneID, float weight);
     void processNode(aiNode* node, const aiScene* scene);
-    void loadMaterialTextures(std::vector<Texture>& textures, aiMaterial* mat, aiTextureType type, const std::string& typeName);
+    void loadMaterialTextures(std::vector<Texture>& textures, const aiScene* scene, aiMaterial* mat, aiTextureType type, const std::string& typeName);
 
 };

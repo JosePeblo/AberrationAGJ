@@ -76,20 +76,20 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     }
 
     // Material
-    // if(mesh->mMaterialIndex >= 0) {
-    //     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-    //     loadMaterialTextures(ms.textures, material, aiTextureType_DIFFUSE, "texure_diffuse");
-    //     loadMaterialTextures(ms.textures, material, aiTextureType_SPECULAR, "texture_specular");
-    // }
+    if(mesh->mMaterialIndex >= 0) {
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        loadMaterialTextures(ms.textures, scene, material, aiTextureType_DIFFUSE, "texure_diffuse");
+        // loadMaterialTextures(ms.textures, material, aiTextureType_SPECULAR, "texture_specular");
+    }
 
-    auto tex = scene->GetEmbeddedTexture("*2");
+    // auto tex = scene->GetEmbeddedTexture("*2");
     
-    std::cout << "Texture width: " << tex->mWidth << std::endl;
-    std::cout << "Texture height: " << tex->mHeight << std::endl;
-    std::cout << "Texture pointer: " << &tex->pcData << std::endl;
-    std::cout << "Texture filename: " << tex->mFilename.C_Str() << std::endl;
+    // std::cout << "Texture width: " << tex->mWidth << std::endl;
+    // std::cout << "Texture height: " << tex->mHeight << std::endl;
+    // std::cout << "Texture pointer: " << tex->pcData << std::endl;
+    // std::cout << "Texture filename: " << tex->mFilename.C_Str() << std::endl;
 
-    ms.textures.push_back(LoadTextureFromMemory((unsigned char*)tex->pcData, tex->mWidth));
+    // ms.textures.push_back(LoadTextureFromMemory((unsigned char*)tex->pcData, tex->mWidth));
     // ExtractBoneWeigthsForVertices(vertices, mesh, scene);
 
     // for(const auto& v : vertices)
@@ -112,14 +112,30 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     return ms;
 }
 
-void Model::loadMaterialTextures(std::vector<Texture>& textures, aiMaterial* mat, aiTextureType type, const std::string& typeName /*FIXME: not used, it is suposed to be used for the indexing I supose*/)
+void Model::loadMaterialTextures(std::vector<Texture>& textures, const aiScene* scene, aiMaterial* mat, aiTextureType type, const std::string& typeName /*FIXME: not used, it is suposed to be used for the indexing I supose*/)
 {
     for(uint32_t i = 0; i < mat->GetTextureCount(type); ++i)
     {
         aiString str;
         
         mat->GetTexture(type, i, &str);
-        puts(str.C_Str());
+        
+        if(str.length == 0) return;
+
+        if(str.C_Str()[0] == '*') {
+            // std::string string(str.C_Str());
+            // std::stoi(string.substr(1));
+            auto atx = scene->GetEmbeddedTexture(str.C_Str());
+            if(atx->mHeight == 0){
+                textures.push_back(LoadTextureFromMemory((unsigned char*)atx->pcData, atx->mWidth));
+                return;
+            }
+            Texture tex((const unsigned char *)atx->pcData, atx->mWidth, atx->mHeight, 4);
+            textures.push_back(std::move(tex));
+            return;
+            
+        }
+
         Texture tex(str.C_Str());
         textures.push_back(std::move(tex));
     }

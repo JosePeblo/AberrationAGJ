@@ -42,7 +42,11 @@ Window::Window(int width, int height, const char* title):
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_SAMPLES, 8);    
+    glfwWindowHint(GLFW_SAMPLES, 8);
+
+    glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_CULL_FACE);
+    // glCullFace(GL_BACK);
 
 }
 
@@ -81,7 +85,7 @@ void Window::pollEvents()
 void Window::clear()
 {
     // TODO: abstract for different graphics api
-    GLCall(glClearColor(0.24f, 0.24f, 0.24f, 1.f));
+    GLCall(glClearColor(0.0f, 0.0f, 0.0f, 0.0f));
     GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 

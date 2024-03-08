@@ -11,11 +11,17 @@ out vec2 v_TexCoords;
 out vec3 v_FragPos;
 out vec3 v_Normal;
 
+uniform mat4 u_Model;
+uniform mat4 u_View;
+uniform mat4 u_Projection;
+
 void main()
 {
-    gl_Position = vec4(position, 1.0);
+    vec4 pos = u_Projection * u_View * u_Model * vec4(position, 1.0f);
+
+    gl_Position = pos;
     v_TexCoords = uv;
-    v_FragPos = position;
+    v_FragPos = vec4(u_Model * vec4(position, 1.0f)).xyz;
     v_Normal = norm;
 }
 

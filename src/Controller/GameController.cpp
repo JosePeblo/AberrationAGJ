@@ -12,6 +12,8 @@ void OnStart() {
 void OnUpdate() {
     RenderTarget.pollEvents();
     Scenes[CurrentScene].OnUpdate();
+    if(GameCamera)
+        GameCamera->OnUpdate();
 }
 
 void OnRender() {
@@ -21,6 +23,17 @@ void OnRender() {
     RenderTarget.clear();
     Scenes[CurrentScene].OnRender();
     gBuffer.Unbind();
+
+    gPosition.Bind(0);
+    lightPass.SetUniform1i("u_gPosition", 0);
+    gNormals.Bind(1);
+    lightPass.SetUniform1i("u_gNormals", 1);
+    gAlbedoSpec.Bind(2);
+    lightPass.SetUniform1i("u_gAlbedoSpec", 2);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    GameRenderer.DrawTriangleMesh(*screenRect.va, *screenRect.ib, lightPass);
+
     RenderTarget.swapBuffers();
 }
 

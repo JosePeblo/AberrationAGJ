@@ -11,13 +11,20 @@ public:
     Model model = Model("Res\\Models\\sus.glb");
     Shader shader = Shader("Res\\Shaders\\GeometryPass.glsl");
     Entity()
-    {   
-        
+    {   mat4 model = {
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        };
+
+        shader.SetUniformMat4f("u_Model", model);
     }
 
     void OnUpdate() override
     {
-
+        shader.SetUniformMat4f("u_View", GameController::GameCamera->GetViewMatrix());
+        shader.SetUniformMat4f("u_Projection", GameController::GameCamera->GetProjectionMatrix());
     }
 
     void OnRender() override
@@ -45,13 +52,16 @@ void segvHandler(int s)
 
 int main(void) {
     GameController::OnStart();
+    PerspectiveCam cam(45, 0.1, 1000, WINDOW_WIDTH, WINDOW_HEIGHT);
+    cam.m_Window = &GameController::RenderTarget;
+    GameController::GameCamera = &cam;
     auto scene = Scene();
     Entity suzane;
 
     scene.GetObjectTree().push_back(&suzane);
 
     GameController::Scenes[GameController::CurrentScene] = scene;
-    PerspectiveCam cam(45, 0.1, 1000, WINDOW_WIDTH, WINDOW_HEIGHT);
+
 
     while(!GameController::RenderTarget.windowShouldClose())
     {
