@@ -44,8 +44,10 @@ struct Rect {
        -1.f,  1.f,  0.f,  1.f,
     };
     const unsigned int indices[6] = {
-        0, 1, 2,
-        3, 4, 5
+        0, 2, 1,
+        3, 5, 4
+        // 0, 1, 2,
+        // 3, 4, 5
     };
 
     VertexArray* va = nullptr;

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <cml.h>
 
 class GameObject
 {
@@ -22,6 +23,10 @@ public:
 
 protected:
     std::vector<GameObject*> m_children;
+    
+    // TODO:? Quaternions??? Yaw Pitch Roll???
+    vec3 m_rotation = { 0.0f, 0.0f, 0.0f };
+    // TODO: All transform information
 private:
 
 };

@@ -8,8 +8,8 @@
 #include "Rendering/Camera.hpp"
 #include "Rendering/Mesh.hpp"
 
-#define WINDOW_HEIGHT 800
-#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 600
 
 namespace GameController {
 inline Renderer GameRenderer;

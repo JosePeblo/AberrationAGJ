@@ -23,6 +23,33 @@ public:
 
     void OnUpdate() override
     {
+        m_rotation.y += PI/100;
+        if(m_rotation.y > 2.0f * PI)
+            m_rotation.y = 0;
+
+        // mat4 model = {
+        //     1, 0, 0, 0,
+        //     0, 1, 0, 0,
+        //     0, 0, 1, 0,
+        //     0, 0, 0, 1
+        // };
+
+        // mat4 rotx = {
+        //     1,    0       ,     0       , 0,
+        //     0, cosf(m_rotation.x), -sinf(m_rotation.x), 0,
+        //     0, sinf(m_rotation.x),  cosf(m_rotation.x), 0,
+        //     0,    0,            0,        1
+        // };
+
+
+        mat4 roty = {
+        cosf(m_rotation.y),  0, sinf(m_rotation.y),  0,
+            0,        1,     0,        0,
+        -sinf(m_rotation.y), 0, cosf(m_rotation.y),  0,
+            0,        0,     0,        1
+        };
+
+        shader.SetUniformMat4f("u_Model", roty);
         shader.SetUniformMat4f("u_View", GameController::GameCamera->GetViewMatrix());
         shader.SetUniformMat4f("u_Projection", GameController::GameCamera->GetProjectionMatrix());
     }
@@ -41,7 +68,6 @@ public:
     }
 
 private:
-
 };
 
 void segvHandler(int s)
